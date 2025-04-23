@@ -7,7 +7,6 @@ import android.os.Environment
 import android.webkit.CookieManager
 import android.webkit.URLUtil
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -47,7 +46,17 @@ fun ComposeWebView(url: String){
 
                     // Extract filename from contentDisposition
                     val fileName = URLUtil.guessFileName(url, contentDisposition, mimetype)
-                    request.setTitle(fileName)
+
+                    val regex = Regex("""filename="([^"]+)"""")
+                    val matchResult = regex.find(contentDisposition)
+                    var songName= ""
+                    matchResult?.let {
+                        val filename = it.groupValues[1] // "Game Changer-yt.savetube.me.mp3"
+
+                        // Extract the part before "-yt.savetube.me.mp3"
+                        songName = filename.split("-yt.savetube.me.mp3")[0]
+                    }
+                    request.setTitle(songName)
 
                     request.allowScanningByMediaScanner()
                     request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
