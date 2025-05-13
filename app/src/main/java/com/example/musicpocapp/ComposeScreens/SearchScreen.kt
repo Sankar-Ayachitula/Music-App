@@ -1,9 +1,10 @@
 package com.example.musicpocapp.ComposeScreens
 
-import androidx.compose.material3.Text
+
 import androidx.compose.runtime.Composable
+import com.example.musicpocapp.CustomCompose.ComposeWebView
 
 @Composable
 fun SearchScreen(){
-    Text("Search Screen")
+    ComposeWebView("https://mp3juice.ninja")
 }
